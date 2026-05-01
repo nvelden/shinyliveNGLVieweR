@@ -53,7 +53,7 @@ mod_examples_server <- function(input, output, session, r) {
 
   observeEvent(r$examples$example_link_id, {
     r$rendering <- TRUE
-    r$fileInput <- readFile(app_sys(sprintf("app/www/%s.ngl", r$examples$example_link_id)))
+    r$fileInput <- readFile(sprintf("www/%s.ngl", r$examples$example_link_id))
     r$fileInput$name <- r$examples$example_link_id 
     r$stage$fileColor <- r$fileInput$stage$backgroundColor #Needed to change theme
   })

@@ -38,7 +38,7 @@ mod_sequenceOutput_server <- function(input, output, session, globalSession, r) 
       ),
       d3_version = c("5"),
       container = "div",
-      script = app_sys("app/www/sequenceOutput.js")
+      script = "www/sequenceOutput.js"
     )
   })
   # <----------------------------------------UI inputs --------------------------------------------->

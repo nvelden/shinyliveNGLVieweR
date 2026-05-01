@@ -100,7 +100,7 @@ mod_labelcontrols_server <- function(input, output, session, globalSession, r) {
       fluidPage(
         style = "padding:0;",
         htmlTemplate(
-          filename = app_sys("app/www/labelcontrols.html"),
+          filename = "www/labelcontrols.html",
           textColor = colourpicker::colourInput(ns("textColor"), label = "Text Color", "#FFFFFF", palette = "limited", closeOnClick = TRUE),
           labelSize = numericInput(ns("labelSize"), "Size", value = 3, step = 0.1),
           fixedSize = selectInput(ns("fixedSize"), "Fixed", c("yes", "no"), selected = "no"),

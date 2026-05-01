@@ -18,7 +18,7 @@
 app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
-    golem_add_external_resources(),
+    add_external_resources(),
     # List the first level UI elements here
     dashboardPage(
       title = "NGLVieweR",
@@ -68,30 +68,20 @@ app_ui <- function(request) {
 #' resources inside the Shiny application. 
 #' 
 #' @import shiny
-#' @importFrom golem add_resource_path activate_js favicon bundle_resources
 #' @noRd
-golem_add_external_resources <- function() {
-  add_resource_path(
-    "www", app_sys("app/www")
-    
-  )
-  
+add_external_resources <- function() {
   tags$head(
-    favicon(
-      ext='ico'
-    ),
-    bundle_resources(
-      path = app_sys("app/www"),
-      app_title = "shinyNGLVieweR"
-    ),
+    tags$link(rel = "icon", href = "www/favicon.ico"),
+    tags$link(rel = "stylesheet", href = "www/styles.css"),
+    tags$script(src = "www/handlers.js"),
+    tags$script(src = "www/sequenceOutput.js"),
     useShinyjs(),
     extendShinyjs(text = jsboxCollapse, functions = c("collapse")), #Collapse box when clicking on title
     # Input modals
     bsplus::use_bs_tooltip(),
     bsplus::use_bs_popover(),
-    bs_input_modal("select_modal", "Selection Language", htmlTemplate(app_sys("app/www/selectionModal.html")), "medium"),
-    bs_input_modal("contact_modal", "Contact Selection", htmlTemplate(app_sys("app/www/contactModal.html")), "medium")
+    bs_input_modal("select_modal", "Selection Language", htmlTemplate("www/selectionModal.html"), "medium"),
+    bs_input_modal("contact_modal", "Contact Selection", htmlTemplate("www/contactModal.html"), "medium")
   )
 }
-
 

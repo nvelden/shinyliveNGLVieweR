@@ -28,8 +28,7 @@ mod_NGLVieweROutput_server <- function(input, output, session, r) {
   output$structure <- renderNGLVieweR({
     # Load example by default
     if (is.null(r$fileInput$PDB)) {
-      r$fileInput$PDB <- app_sys("app/www/7cid.ngl")
-      r$fileInput$fileExt <- "pdb"
+      r$fileInput <- readFile("www/7cid.ngl")
       r$fileInput$name <- "7cid"
     }
     
