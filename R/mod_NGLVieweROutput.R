@@ -26,12 +26,18 @@ mod_NGLVieweROutput_server <- function(id, r) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    output$structure <- renderNGLVieweR({
-      # Load example by default
+    # Load default example once on session start so the render does not
+    # mutate a reactive value it also reads from.
+    observe({
       if (is.null(r$fileInput$PDB)) {
-        r$fileInput <- readFile("www/7cid.ngl")
-        r$fileInput$name <- "7cid"
+        default <- readFile("www/7cid.ngl")
+        default$name <- "7cid"
+        r$fileInput <- default
       }
+    }, priority = 100)
+
+    output$structure <- renderNGLVieweR({
+      req(r$fileInput$PDB)
 
       viewerOutput <- NGLVieweR(r$fileInput$PDB, format = r$fileInput$fileExt) %>%
         loadStage(r$fileInput$stage) %>%

@@ -14,8 +14,12 @@ Stage 1 baseline captured against the original `shinyNGLVieweR` server app on
 The original app renders, but emits existing browser console errors:
 
 - `div is not defined`
-- Shiny output-state messages for `NGLVieweROutput_ui_1-structure`, including
-  unexpected `running` and `idle` transitions during initial render.
+- ~~Shiny output-state messages for `NGLVieweROutput_ui_1-structure`, including
+  unexpected `running` and `idle` transitions during initial render.~~
+  **Fixed in Stage 4 follow-up:** the default-load (`readFile("www/7cid.ngl")`)
+  was happening *inside* `renderNGLVieweR`, mutating `r$fileInput` while the
+  render was reading it. Moved into a separate `observe({...})` so the render
+  no longer invalidates itself. Verified by `tests/e2e/console-check.spec.ts`.
 
 Treat these as known baseline issues for Stage 1. Later stages should avoid
 introducing new console errors, and the migration should remove these if
