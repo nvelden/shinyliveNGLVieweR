@@ -10,7 +10,13 @@ This is a Shinylive port of [shinyNGLVieweR](https://github.com/nvelden/shinyNGL
 
 ## Status
 
-Migration in progress. The development plan lives in the original repo: [SHINYLIVE_PLAN.md](https://github.com/nvelden/shinyNGLVieweR/blob/master/SHINYLIVE_PLAN.md).
+Migration in progress. Stages 0 → 6 are complete on the
+[`migration/playwright-baseline`](https://github.com/nvelden/shinyliveNGLVieweR/tree/migration/playwright-baseline)
+branch — golem stripped, all 15 modules on `moduleServer`, headers + reactive
+contracts in place, responsive CSS rewrite live. Stage 7 (first full Shinylive
+export) is up next. See [MIGRATION_LOG.md](MIGRATION_LOG.md) for a stage-by-stage
+record and [PERF_LOG.md](PERF_LOG.md) for timing data; the source spec lives
+in the original repo as [SHINYLIVE_PLAN.md](https://github.com/nvelden/shinyNGLVieweR/blob/master/SHINYLIVE_PLAN.md).
 
 ## Local development
 
