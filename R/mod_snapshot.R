@@ -27,28 +27,29 @@ mod_snapshot_ui <- function(id) {
 #' snapshot Server Function
 #'
 #' @noRd 
-mod_snapshot_server <- function(input, output, session, globalSession){
-  ns <- session$ns
-  
-Viewer_proxy <- NGLVieweR_proxy("NGLVieweROutput_ui_1-structure", session = globalSession)
+mod_snapshot_server <- function(id, globalSession) {
+  moduleServer(id, function(input, output, session) {
+    ns <- session$ns
 
-observeEvent(input$snapshot, {
-  if (nchar(input$snapshotName) != 0) {
-    fileName <- input$snapshotName
-  } else {
-    fileName <- "structure_snapshot"
-  }
-  Viewer_proxy %>% snapShot(
-    fileName = fileName,
-    param = list(
-      factor = 1,
-      antialias = isolate(input$antialias),
-      trim = isolate(input$trim),
-      transparent = isolate(input$transparent)
-    )
-  )
-})
+    Viewer_proxy <- NGLVieweR_proxy("NGLVieweROutput_ui_1-structure", session = globalSession)
 
+    observeEvent(input$snapshot, {
+      if (nchar(input$snapshotName) != 0) {
+        fileName <- input$snapshotName
+      } else {
+        fileName <- "structure_snapshot"
+      }
+      Viewer_proxy %>% snapShot(
+        fileName = fileName,
+        param = list(
+          factor = 1,
+          antialias = isolate(input$antialias),
+          trim = isolate(input$trim),
+          transparent = isolate(input$transparent)
+        )
+      )
+    })
+  })
 }
     
 ## To be copied in the UI

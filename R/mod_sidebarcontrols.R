@@ -23,31 +23,30 @@ mod_sidebarcontrols_ui <- function(id) {
 #' sidebarcontrols Server Function
 #'
 #' @noRd 
-mod_sidebarcontrols_server <- function(input, output, session, globalSession, r){
-  ns <- session$ns
+mod_sidebarcontrols_server <- function(id, globalSession, r) {
+  moduleServer(id, function(input, output, session) {
+    ns <- session$ns
 
-Viewer_proxy <- NGLVieweR_proxy("NGLVieweROutput_ui_1-structure", session = globalSession) 
+    Viewer_proxy <- NGLVieweR_proxy("NGLVieweROutput_ui_1-structure", session = globalSession)
 
-observeEvent(input$animate,{
-  if(input$animate == "Rock"){
-    Viewer_proxy %>% updateRock(TRUE)
-  } else if(input$animate == "Spin") {
-    Viewer_proxy %>% updateSpin(TRUE)
-  } else{
-    Viewer_proxy %>% updateRock(FALSE) %>% updateSpin(FALSE)
-  }
-})
+    observeEvent(input$animate, {
+      if (input$animate == "Rock") {
+        Viewer_proxy %>% updateRock(TRUE)
+      } else if (input$animate == "Spin") {
+        Viewer_proxy %>% updateSpin(TRUE)
+      } else {
+        Viewer_proxy %>% updateRock(FALSE) %>% updateSpin(FALSE)
+      }
+    })
 
-observeEvent(input$showSequence, {
-  r$sidebarcontrols$showSequence <- input$showSequence
-})
+    observeEvent(input$showSequence, {
+      r$sidebarcontrols$showSequence <- input$showSequence
+    })
 
-observeEvent(input$fullscreen,{
-  Viewer_proxy %>% updateFullscreen()
-})
-
-
-  
+    observeEvent(input$fullscreen, {
+      Viewer_proxy %>% updateFullscreen()
+    })
+  })
 }
     
 ## To be copied in the UI

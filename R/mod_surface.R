@@ -26,10 +26,11 @@ mod_surface_ui <- function(id) {
 #' surface Server Function
 #'
 #' @noRd 
-mod_surface_server <- function(input, output, session, globalSession, r){
-  ns <- session$ns
-  
-Viewer_proxy <- NGLVieweR_proxy("NGLVieweROutput_ui_1-structure", session = globalSession)
+mod_surface_server <- function(id, globalSession, r) {
+  moduleServer(id, function(input, output, session) {
+    ns <- session$ns
+
+    Viewer_proxy <- NGLVieweR_proxy("NGLVieweROutput_ui_1-structure", session = globalSession)
 
 # Update inputs 
 observeEvent(r$sidebarItemExpanded, {
@@ -105,15 +106,14 @@ observe({
   ))
 })
 
-observeEvent(input$surfaceType, {
-  if (input$surfaceType == "uniform") {
-    shinyjs::show("surfaceColor")
-  } else {
-    shinyjs::hide("surfaceColor")
-  }
-})
-  
-  
+    observeEvent(input$surfaceType, {
+      if (input$surfaceType == "uniform") {
+        shinyjs::show("surfaceColor")
+      } else {
+        shinyjs::hide("surfaceColor")
+      }
+    })
+  })
 }
     
 ## To be copied in the UI

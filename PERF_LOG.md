@@ -9,3 +9,6 @@
 | 3 | New app, golem stripped | chromium | 1280x900 | parity | 238 | 250 | 1595 | 1.05 | n/a | Default 7cid viewer ready; -19% vs Stage 1. |
 | 3 | New app, golem stripped | chromium | 768x1024 | parity | 546 | 565 | 1930 | 1.05 | n/a | Default 7cid viewer ready; -20% vs Stage 1. |
 | 3 | New app, golem stripped | chromium | 390x844 | parity | 386 | 404 | 2522 | 1.05 | n/a | Default 7cid viewer ready; -18% vs Stage 1. |
+| 4 | All 15 modules on moduleServer | chromium | 1280x900 | parity | 288 | 304 | 1812 | 1.05 | n/a | Single-run; within budget vs Stage 3. |
+| 4 | All 15 modules on moduleServer | chromium | 768x1024 | parity | 393 | 407 | 1340 | 1.05 | n/a | Median of 3 runs (3026/1098/1340); first run had cold-worker noise. |
+| 4 | All 15 modules on moduleServer | chromium | 390x844 | parity | 374 | 391 | 1469 | 1.05 | n/a | Median of 3 runs (3217/1469/1368); first run had cold-worker noise. |

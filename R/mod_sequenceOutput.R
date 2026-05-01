@@ -25,11 +25,12 @@ mod_sequenceOutput_ui <- function(id) {
 #' sequenceOutput Server Function
 #'
 #' @noRd
-mod_sequenceOutput_server <- function(input, output, session, globalSession, r) {
-  ns <- session$ns
+mod_sequenceOutput_server <- function(id, globalSession, r) {
+  moduleServer(id, function(input, output, session) {
+    ns <- session$ns
 
-  # <----------------------------------------Sequence Output --------------------------------------------->
-  output$PDBsequence <- renderD3({
+    # <----------------------------------------Sequence Output --------------------------------------------->
+    output$PDBsequence <- renderD3({
     r2d3(
       data = r$sequence_df,
       options = list(
@@ -103,14 +104,15 @@ mod_sequenceOutput_server <- function(input, output, session, globalSession, r) 
     }
   })
 
-  observe({
-    Viewer_proxy %>%
-      updateRepresentation("aa_clicked",
-        param = list(
-          colorValue = r$selection$selectionColor,
-          colorScheme = r$selection$selectionColorScheme
+    observe({
+      Viewer_proxy %>%
+        updateRepresentation("aa_clicked",
+          param = list(
+            colorValue = r$selection$selectionColor,
+            colorScheme = r$selection$selectionColorScheme
+          )
         )
-      )
+    })
   })
 }
 

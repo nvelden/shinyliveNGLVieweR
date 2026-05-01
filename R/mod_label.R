@@ -27,12 +27,13 @@ mod_label_ui <- function(id) {
 #' label Server Function
 #'
 #' @noRd 
-mod_label_server <- function(input, output, session, globalSession, r) {
-  ns <- session$ns
-  Viewer_proxy <- NGLVieweR_proxy("NGLVieweROutput_ui_1-structure", session = globalSession)
+mod_label_server <- function(id, globalSession, r) {
+  moduleServer(id, function(input, output, session) {
+    ns <- session$ns
+    Viewer_proxy <- NGLVieweR_proxy("NGLVieweROutput_ui_1-structure", session = globalSession)
 
-  # Input for labelcontrols module
-  observeEvent(input$labelOptions, {
+    # Input for labelcontrols module
+    observeEvent(input$labelOptions, {
     r$label$labelOptions <- input$labelOptions
   })
 
@@ -212,24 +213,23 @@ mod_label_server <- function(input, output, session, globalSession, r) {
     reset("labelFormat")
   })
   
-  # update selection values when selection link is clicked
-  observeEvent(r$label$labelLink_id, {
-    uu_id <- str_replace(r$label$labelLink_id, "labelLink-", "")
-    id <- sprintf("label-%s", uu_id)
-    data <- r$label$labels[r$label$labels$id == id, ]
-    
-    if(data$labelFormat == "[%(resname)s]%(resno)s"){
-      labelFormat <- ""
-    } else {
-      labelFormat <- data$labelFormat 
-    }
-    
-    updateSelectInput(session, "labelGrouping", selected = data$labelGrouping)
-    updateTextInput(session, "labelSelection", value = data$selection)
-    updateTextInput(session, "labelFormat", value = labelFormat)
-    
+    # update selection values when selection link is clicked
+    observeEvent(r$label$labelLink_id, {
+      uu_id <- str_replace(r$label$labelLink_id, "labelLink-", "")
+      id <- sprintf("label-%s", uu_id)
+      data <- r$label$labels[r$label$labels$id == id, ]
+
+      if (data$labelFormat == "[%(resname)s]%(resno)s") {
+        labelFormat <- ""
+      } else {
+        labelFormat <- data$labelFormat
+      }
+
+      updateSelectInput(session, "labelGrouping", selected = data$labelGrouping)
+      updateTextInput(session, "labelSelection", value = data$selection)
+      updateTextInput(session, "labelFormat", value = labelFormat)
+    })
   })
-  
 }
     
 ## To be copied in the UI

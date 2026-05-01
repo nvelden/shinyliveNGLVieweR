@@ -28,11 +28,12 @@ mod_labelcontrols_ui <- function(id) {
 #' labelcontrols Server Function
 #'
 #' @noRd 
-mod_labelcontrols_server <- function(input, output, session, globalSession, r) {
-  ns <- session$ns
+mod_labelcontrols_server <- function(id, globalSession, r) {
+  moduleServer(id, function(input, output, session) {
+    ns <- session$ns
 
-  # Unfold box on title click
-  observeEvent(input$optionsTitle, {
+    # Unfold box on title click
+    observeEvent(input$optionsTitle, {
     js$collapse(ns("labelBox"))
   })
 
@@ -115,14 +116,15 @@ mod_labelcontrols_server <- function(input, output, session, globalSession, r) {
     )
   })
 
-  observeEvent(input$labelBackground, {
-    if (input$labelBackground) {
-      shinyjs::enable("labelbackgroundColor")
-      shinyjs::enable("labelbackgroundOpacity")
-    } else {
-      shinyjs::disable("labelbackgroundColor")
-      shinyjs::disable("labelbackgroundOpacity")
-    }
+    observeEvent(input$labelBackground, {
+      if (input$labelBackground) {
+        shinyjs::enable("labelbackgroundColor")
+        shinyjs::enable("labelbackgroundOpacity")
+      } else {
+        shinyjs::disable("labelbackgroundColor")
+        shinyjs::disable("labelbackgroundOpacity")
+      }
+    })
   })
 }
 ## To be copied in the UI

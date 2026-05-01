@@ -31,25 +31,22 @@ mod_fileInput_ui <- function(id) {
 #' fileInput Server Function
 #'
 #' @noRd 
-mod_fileInput_server <- function(input, output, session, r) {
-  ns <- session$ns
-  
-  #Load example when nothing loaded
-  #r$fileinput$PDB <- "www/examples/7cid.ngl" 
+mod_fileInput_server <- function(id, r) {
+  moduleServer(id, function(input, output, session) {
+    ns <- session$ns
 
+    observeEvent(input$loadCode, {
+      r$rendering <- TRUE
+      r$fileInput <- readFile(input$codePDB)
+      r$fileInput$name <- input$codePDB
+      r$stage$fileColor <- "black" #Needed to change theme
+    })
 
-  observeEvent(input$loadCode, {
-    
-    r$rendering <- TRUE
-    r$fileInput <- readFile(input$codePDB)
-    r$fileInput$name <- input$codePDB
-    r$stage$fileColor <- "black" #Needed to change theme
-  })
-
-  observeEvent(input$loadStructure, {
-    r$rendering <- TRUE
-    r$fileInput <- readFile(input$inputPDB$datapath)
-    r$stage$fileColor <- r$fileInput$stage$backgroundColor #Needed to change theme
-    r$fileInput$name <- tools::file_path_sans_ext(input$inputPDB$name)
+    observeEvent(input$loadStructure, {
+      r$rendering <- TRUE
+      r$fileInput <- readFile(input$inputPDB$datapath)
+      r$stage$fileColor <- r$fileInput$stage$backgroundColor #Needed to change theme
+      r$fileInput$name <- tools::file_path_sans_ext(input$inputPDB$name)
+    })
   })
 }

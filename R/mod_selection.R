@@ -30,13 +30,14 @@ mod_selection_ui <- function(id) {
 #' selection Server Function
 #'
 #' @noRd 
-mod_selection_server <- function(input, output, session, globalSession, r) {
-  ns <- session$ns
+mod_selection_server <- function(id, globalSession, r) {
+  moduleServer(id, function(input, output, session) {
+    ns <- session$ns
 
-  Viewer_proxy <- NGLVieweR_proxy("NGLVieweROutput_ui_1-structure", session = globalSession)
+    Viewer_proxy <- NGLVieweR_proxy("NGLVieweROutput_ui_1-structure", session = globalSession)
 
-  # Inputs for sequenceOutput module
-  observeEvent(input$selection, {
+    # Inputs for sequenceOutput module
+    observeEvent(input$selection, {
     r$selection$selectionInput <- input$selection
   })
   observeEvent(input$selectionColorScheme, {
@@ -146,18 +147,19 @@ mod_selection_server <- function(input, output, session, globalSession, r) {
     reset("selName")
   })
 
-  # update selection values when selection link is clicked
-  observeEvent(r$selection$selectionLink_id, {
-    uu_id <- str_replace(r$selection$selectionLink_id, "selectionLink-", "")
-    id <- sprintf("selection-%s", uu_id)
-    data <- r$selection$selections[r$selection$selections$id == id, ]
+    # update selection values when selection link is clicked
+    observeEvent(r$selection$selectionLink_id, {
+      uu_id <- str_replace(r$selection$selectionLink_id, "selectionLink-", "")
+      id <- sprintf("selection-%s", uu_id)
+      data <- r$selection$selections[r$selection$selections$id == id, ]
 
-    updateTextInput(session, "selection", value = data$selection)
-    updateSelectInput(session, "selectionType", selected = data$structureType)
-    updateSelectInput(session, "selectionColorScheme", selected = data$colorScheme)
-    colourpicker::updateColourInput(session, "selectionColor", value = data$colorValue)
-    updateTextInput(session, "selName", value = data$name)
-    updateSliderInput(session, "selectionOpacity", value = data$opacity)
+      updateTextInput(session, "selection", value = data$selection)
+      updateSelectInput(session, "selectionType", selected = data$structureType)
+      updateSelectInput(session, "selectionColorScheme", selected = data$colorScheme)
+      colourpicker::updateColourInput(session, "selectionColor", value = data$colorValue)
+      updateTextInput(session, "selName", value = data$name)
+      updateSliderInput(session, "selectionOpacity", value = data$opacity)
+    })
   })
 }
     

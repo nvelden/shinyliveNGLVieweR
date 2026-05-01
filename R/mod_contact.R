@@ -32,13 +32,14 @@ mod_contact_ui <- function(id) {
 #' contact Server Function
 #'
 #' @noRd
-mod_contact_server <- function(input, output, session, globalSession, r) {
-  ns <- session$ns
+mod_contact_server <- function(id, globalSession, r) {
+  moduleServer(id, function(input, output, session) {
+    ns <- session$ns
 
-  Viewer_proxy <- NGLVieweR_proxy("NGLVieweROutput_ui_1-structure", session = globalSession)
+    Viewer_proxy <- NGLVieweR_proxy("NGLVieweROutput_ui_1-structure", session = globalSession)
 
-  # Load UI component from .ngl file and bind to component data.frame
-  observeEvent(r$sidebarItemExpanded, {
+    # Load UI component from .ngl file and bind to component data.frame
+    observeEvent(r$sidebarItemExpanded, {
     if (r$contact$loaded == FALSE && (r$sidebarItemExpanded == "contact")) { # reset in mod_NGLVieweROutput
 
       # Reset input values
@@ -212,18 +213,19 @@ mod_contact_server <- function(input, output, session, globalSession, r) {
     reset("contactName")
   })
 
-  # update selection values when selection link is clicked
-  observeEvent(r$contact$contactLink_id, {
-    uu_id <- str_replace(r$contact$contactLink_id, "contactLink-", "")
-    id <- sprintf("contact-%s", uu_id)
-    data <- r$contact$contacts[r$contact$contacts$id == id, ]
-    contactTypes <- unlist(str_split(data$contactTypes, ","))
+    # update selection values when selection link is clicked
+    observeEvent(r$contact$contactLink_id, {
+      uu_id <- str_replace(r$contact$contactLink_id, "contactLink-", "")
+      id <- sprintf("contact-%s", uu_id)
+      data <- r$contact$contacts[r$contact$contacts$id == id, ]
+      contactTypes <- unlist(str_split(data$contactTypes, ","))
 
-    updateSelectInput(session, "contactLabel", selected = data$labelUnit)
-    updateTextInput(session, "contactTypes", value = contactTypes)
-    updateTextInput(session, "contactFilterA", value = data$selectionA)
-    updateTextInput(session, "contactFilterB", value = data$selectionB)
-    updateTextInput(session, "contactName", value = data$name)
+      updateSelectInput(session, "contactLabel", selected = data$labelUnit)
+      updateTextInput(session, "contactTypes", value = contactTypes)
+      updateTextInput(session, "contactFilterA", value = data$selectionA)
+      updateTextInput(session, "contactFilterB", value = data$selectionB)
+      updateTextInput(session, "contactName", value = data$name)
+    })
   })
 }
     

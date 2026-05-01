@@ -29,13 +29,14 @@ mod_structure_ui <- function(id) {
 #' structure Server Function
 #'
 #' @noRd 
-mod_structure_server <- function(input, output, session, globalSession, r) {
-  ns <- session$ns
+mod_structure_server <- function(id, globalSession, r) {
+  moduleServer(id, function(input, output, session) {
+    ns <- session$ns
 
-  Viewer_proxy <- NGLVieweR_proxy("NGLVieweROutput_ui_1-structure", session = globalSession)
-  
-  # Update inputs 
-observeEvent(r$sidebarItemExpanded, {
+    Viewer_proxy <- NGLVieweR_proxy("NGLVieweROutput_ui_1-structure", session = globalSession)
+
+    # Update inputs
+    observeEvent(r$sidebarItemExpanded, {
   if (r$structure$loaded == FALSE && (r$sidebarItemExpanded == "structure")) { # reset in mod_NGLVieweROutput
     if (!is.null(r$fileInput$structure)) {
       data <- r$fileInput$structure
@@ -108,12 +109,13 @@ observeEvent(r$sidebarItemExpanded, {
   ) 
   })
 
-  observeEvent(input$structureColorScheme, {
-    if (input$structureColorScheme == "uniform" || input$structureColorScheme == "element") {
-      shinyjs::show("structureColor")
-    } else {
-      shinyjs::hide("structureColor")
-    }
+    observeEvent(input$structureColorScheme, {
+      if (input$structureColorScheme == "uniform" || input$structureColorScheme == "element") {
+        shinyjs::show("structureColor")
+      } else {
+        shinyjs::hide("structureColor")
+      }
+    })
   })
 }
     

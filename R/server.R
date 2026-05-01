@@ -38,20 +38,20 @@ app_server <- function(input, output, session) {
     r$examples$example_link_id <- input$example_link_id 
   })
   
-  callModule(mod_fileInput_server, "fileInput_ui_1", r=r)
-  callModule(mod_fileOutput_server, "fileOutput_ui_1", r=r)
-  callModule(mod_examples_server, "examples_ui_1", r=r)
-  callModule(mod_structure_server, "structure_ui_1", globalSession = session, r=r) #Pass globalSession to access NGLViewer object
-  callModule(mod_surface_server, "surface_ui_1", globalSession = session, r=r)
-  callModule(mod_ligand_server, "ligand_ui_1", globalSession = session, r=r)
-  callModule(mod_selection_server, "selection_ui_1", globalSession = session, r=r)
-  callModule(mod_label_server, "label_ui_1", globalSession = session, r=r)
-  callModule(mod_contact_server, "contact_ui_1", globalSession = session, r=r)
-  callModule(mod_stage_server, "stage_ui_1", globalSession = session, r=r)
-  callModule(mod_snapshot_server, "snapshot_ui_1", globalSession = session)
-  callModule(mod_sidebarcontrols_server, "sidebarcontrols_ui_1", globalSession = session, r=r)
-  callModule(mod_labelcontrols_server, "labelcontrols_ui_1", globalSession = session, r=r)
-  callModule(mod_sequenceOutput_server, "sequenceOutput_ui_1", globalSession = session, r=r)
-  callModule(mod_NGLVieweROutput_server, "NGLVieweROutput_ui_1", r=r)
+  mod_fileInput_server("fileInput_ui_1", r = r)
+  mod_fileOutput_server("fileOutput_ui_1", r = r)
+  mod_examples_server("examples_ui_1", r = r)
+  mod_structure_server("structure_ui_1", globalSession = session, r = r) #Pass globalSession to access NGLViewer object
+  mod_surface_server("surface_ui_1", globalSession = session, r = r)
+  mod_ligand_server("ligand_ui_1", globalSession = session, r = r)
+  mod_selection_server("selection_ui_1", globalSession = session, r = r)
+  mod_label_server("label_ui_1", globalSession = session, r = r)
+  mod_contact_server("contact_ui_1", globalSession = session, r = r)
+  mod_stage_server("stage_ui_1", globalSession = session, r = r)
+  mod_snapshot_server("snapshot_ui_1", globalSession = session)
+  mod_sidebarcontrols_server("sidebarcontrols_ui_1", globalSession = session, r = r)
+  mod_labelcontrols_server("labelcontrols_ui_1", globalSession = session, r = r)
+  mod_sequenceOutput_server("sequenceOutput_ui_1", globalSession = session, r = r)
+  mod_NGLVieweROutput_server("NGLVieweROutput_ui_1", r = r)
 
 }

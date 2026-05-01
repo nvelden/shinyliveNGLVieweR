@@ -24,12 +24,13 @@ mod_stage_ui <- function(id) {
 #' stage Server Function
 #'
 #' @noRd 
-mod_stage_server <- function(input, output, session, globalSession, r) {
-  ns <- session$ns
+mod_stage_server <- function(id, globalSession, r) {
+  moduleServer(id, function(input, output, session) {
+    ns <- session$ns
 
-  Viewer_proxy <- NGLVieweR_proxy("NGLVieweROutput_ui_1-structure", session = globalSession)
+    Viewer_proxy <- NGLVieweR_proxy("NGLVieweROutput_ui_1-structure", session = globalSession)
 
-  observeEvent(r$sidebarItemExpanded, {
+    observeEvent(r$sidebarItemExpanded, {
     if (r$stage$loaded == FALSE && r$sidebarItemExpanded == "stage") { # reset in mod_NGLVieweROutput
       if (!is.null(r$fileInput$stage)) {
         data <- r$fileInput$stage
@@ -82,28 +83,25 @@ observeEvent(input$background, {
   r$stage$fileColor <- input$background #Set back to black in load and examples modules.
 })  
   
-output$backGroundColor_theme <- renderUI({
-  
-  if(is.null(r$stage$fileColor)){
-    fileColor <- "black"
-  } else {
-    fileColor <- r$stage$fileColor 
-  }
+    output$backGroundColor_theme <- renderUI({
+      if (is.null(r$stage$fileColor)) {
+        fileColor <- "black"
+      } else {
+        fileColor <- r$stage$fileColor
+      }
 
-  if (fileColor == "white") {
-    div(
-      tags$style(HTML(".content-wrapper{background-color: white !important;}")),
-      tags$style(HTML(".box.box-solid.box-primary >.box-header {background-color: black;}")),
-      tags$style(HTML("#structure {background-color: white;}")),
-      tags$style(HTML(".box.box-solid.box-primary{border-color: black;}")),
-      tags$style(HTML(".box-title {color: black;}")),
-      tags$style(HTML(".btn-box-tool {color: white !important;}")),
-    )
-  }
-})
-
-
-
+      if (fileColor == "white") {
+        div(
+          tags$style(HTML(".content-wrapper{background-color: white !important;}")),
+          tags$style(HTML(".box.box-solid.box-primary >.box-header {background-color: black;}")),
+          tags$style(HTML("#structure {background-color: white;}")),
+          tags$style(HTML(".box.box-solid.box-primary{border-color: black;}")),
+          tags$style(HTML(".box-title {color: black;}")),
+          tags$style(HTML(".btn-box-tool {color: white !important;}")),
+        )
+      }
+    })
+  })
 }
 ## To be copied in the UI
 # 

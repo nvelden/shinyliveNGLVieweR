@@ -22,59 +22,61 @@ mod_NGLVieweROutput_ui <- function(id) {
 #' NGLVieweROutput Server Function
 #'
 #' @noRd 
-mod_NGLVieweROutput_server <- function(input, output, session, r) {
-  ns <- session$ns
+mod_NGLVieweROutput_server <- function(id, r) {
+  moduleServer(id, function(input, output, session) {
+    ns <- session$ns
 
-  output$structure <- renderNGLVieweR({
-    # Load example by default
-    if (is.null(r$fileInput$PDB)) {
-      r$fileInput <- readFile("www/7cid.ngl")
-      r$fileInput$name <- "7cid"
-    }
-    
-    viewerOutput <- NGLVieweR(r$fileInput$PDB, format = r$fileInput$fileExt) %>%
-      loadStage(r$fileInput$stage) %>%
-      setQuality("high") %>%
-      setFocus(0) %>%
-      setSpin(FALSE) %>%
-      addRepresentation("ball+stick", param = list(
-       name = "aa_clicked", visible = TRUE,
-       sele = "none", color = "element", colorValue = "#33FF19"
-      )) %>%
+    output$structure <- renderNGLVieweR({
+      # Load example by default
+      if (is.null(r$fileInput$PDB)) {
+        r$fileInput <- readFile("www/7cid.ngl")
+        r$fileInput$name <- "7cid"
+      }
 
-      # Load from .ngl file
-      loadLabels(r$fileInput$labels) %>%
-      loadSelections(r$fileInput$selections) %>%
-      loadLigand(r$fileInput$ligand) %>%
-      loadContacts(r$fileInput$contacts) %>%
-      loadStructure(r$fileInput$structure, format = r$fileInput$fileExt) %>%
-      loadSurface(r$fileInput$surface)
-      
-    isolate({ 
-    r$selection$loaded <- FALSE 
-    r$label$loaded <- FALSE 
-    r$contact$loaded <- FALSE 
-    r$structure$loaded <- FALSE
-    r$surface$loaded <- FALSE
-    r$ligand$loaded <- FALSE
-    r$stage$loaded <- FALSE
-    r$structure$structure <- NULL
-    r$surface$surface <- NULL
-    r$ligand$ligand <- NULL
-    r$stage$stage <- NULL
-    r$contact$contacts <- NULL
+      viewerOutput <- NGLVieweR(r$fileInput$PDB, format = r$fileInput$fileExt) %>%
+        loadStage(r$fileInput$stage) %>%
+        setQuality("high") %>%
+        setFocus(0) %>%
+        setSpin(FALSE) %>%
+        addRepresentation("ball+stick", param = list(
+          name = "aa_clicked", visible = TRUE,
+          sele = "none", color = "element", colorValue = "#33FF19"
+        )) %>%
+
+        # Load from .ngl file
+        loadLabels(r$fileInput$labels) %>%
+        loadSelections(r$fileInput$selections) %>%
+        loadLigand(r$fileInput$ligand) %>%
+        loadContacts(r$fileInput$contacts) %>%
+        loadStructure(r$fileInput$structure, format = r$fileInput$fileExt) %>%
+        loadSurface(r$fileInput$surface)
+
+      isolate({
+        r$selection$loaded <- FALSE
+        r$label$loaded <- FALSE
+        r$contact$loaded <- FALSE
+        r$structure$loaded <- FALSE
+        r$surface$loaded <- FALSE
+        r$ligand$loaded <- FALSE
+        r$stage$loaded <- FALSE
+        r$structure$structure <- NULL
+        r$surface$surface <- NULL
+        r$ligand$ligand <- NULL
+        r$stage$stage <- NULL
+        r$contact$contacts <- NULL
+      })
+
+      return(viewerOutput)
     })
-    
-    return(viewerOutput)
-  })
-  
-  #Loader
-  observeEvent(r$rendering, {
-    if(isTRUE(r$rendering)  || is.null(r$rendering)){
-      shinyjs::show("render-loader")
-    } else {
-      shinyjs::hide("render-loader")
-    }
+
+    #Loader
+    observeEvent(r$rendering, {
+      if (isTRUE(r$rendering) || is.null(r$rendering)) {
+        shinyjs::show("render-loader")
+      } else {
+        shinyjs::hide("render-loader")
+      }
+    })
   })
 } 
 ## To be copied in the UI

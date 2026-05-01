@@ -22,10 +22,11 @@ mod_fileOutput_ui <- function(id) {
 #' fileOutput Server Function
 #'
 #' @noRd 
-mod_fileOutput_server <- function(input, output, session, r) {
-  ns <- session$ns
-  
-  NGL_file <- reactive({
+mod_fileOutput_server <- function(id, r) {
+  moduleServer(id, function(input, output, session) {
+    ns <- session$ns
+
+    NGL_file <- reactive({
     if(is.null(r$structure$structure)){ #reset in NGLViewerOuput module
       structure <- r$fileInput$structure
     } else {
@@ -90,16 +91,16 @@ mod_fileOutput_server <- function(input, output, session, r) {
     return(NGL_file)
   })
 
-  output$downloadNGL <- downloadHandler(
-    
-    filename = function() {
-      sprintf("%s.ngl", isolate(r$fileInput$name))
-    },
-    contentType = "ngl",
-    content = function(file) {
-      writeLines(NGL_file(), file, sep = "")
-    }
-  )
+    output$downloadNGL <- downloadHandler(
+      filename = function() {
+        sprintf("%s.ngl", isolate(r$fileInput$name))
+      },
+      contentType = "ngl",
+      content = function(file) {
+        writeLines(NGL_file(), file, sep = "")
+      }
+    )
+  })
 }
     
 ## To be copied in the UI

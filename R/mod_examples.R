@@ -48,14 +48,16 @@ mod_examples_ui <- function(id) {
 #' examples Server Function
 #'
 #' @noRd 
-mod_examples_server <- function(input, output, session, r) {
-  ns <- session$ns
+mod_examples_server <- function(id, r) {
+  moduleServer(id, function(input, output, session) {
+    ns <- session$ns
 
-  observeEvent(r$examples$example_link_id, {
-    r$rendering <- TRUE
-    r$fileInput <- readFile(sprintf("www/%s.ngl", r$examples$example_link_id))
-    r$fileInput$name <- r$examples$example_link_id 
-    r$stage$fileColor <- r$fileInput$stage$backgroundColor #Needed to change theme
+    observeEvent(r$examples$example_link_id, {
+      r$rendering <- TRUE
+      r$fileInput <- readFile(sprintf("www/%s.ngl", r$examples$example_link_id))
+      r$fileInput$name <- r$examples$example_link_id
+      r$stage$fileColor <- r$fileInput$stage$backgroundColor #Needed to change theme
+    })
   })
 }
 ## To be copied in the UI
