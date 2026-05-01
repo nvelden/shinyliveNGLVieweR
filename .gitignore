@@ -1,0 +1,28 @@
+# R session state
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj.user
+
+# RStudio project (uncomment if you don't want to commit)
+# *.Rproj
+
+# Shinylive local build output (use docs/ for the deployed build)
+site/
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Claude/agent state
+.claude/
+
+# Node (in case any tooling pulls it in)
+node_modules/
