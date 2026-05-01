@@ -16,7 +16,7 @@ mod_labelcontrols_ui <- function(id) {
     shinyjqui::jqui_draggable(
       #hidden(
         div(
-          id = ns("labelOptionsPlaceholder"), class='hideBox', style ="position: absolute; z-index:100; width: calc(30vw); top:calc(60vh);",
+          id = ns("labelOptionsPlaceholder"), class = "hideBox", style = "position: absolute; z-index: 100; width: min(30vw, 360px); top: 60dvh;",
           box(
             width = 12, title = actionLink(ns("optionsTitle"), "Label options"), status = "primary", color = "black", solidHeader = TRUE, align = "left",
             id = ns("labelBox"), class = "controlBox", collapsible = TRUE, closable = TRUE,

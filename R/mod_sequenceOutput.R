@@ -19,7 +19,7 @@ mod_sequenceOutput_ui <- function(id) {
         id = "sequence", title = actionLink(ns("sequenceTitle"), "Sequence"), status = "primary", color = "black", solidHeader = TRUE, align = "left",
         width = 12, collapsible = TRUE, collapsed = TRUE,
         uiOutput(ns("chaininput")),
-        d3Output(ns("PDBsequence"))
+        d3Output(ns("PDBsequence"), height = "100%")
       )
     )
   )

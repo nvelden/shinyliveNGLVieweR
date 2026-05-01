@@ -27,10 +27,19 @@ practical.
 
 ## Known Issues From Plan
 
-- `inst/app/www/styles.css` has no media queries.
-- Several layout heights use `vh`, which can fail on mobile browser chrome.
-- The viewer height is coupled to `#NGLVieweROutput_ui_1-structure`.
-- Some global box styling removes visual separation.
-- CSS contains `!important`.
-- Mobile viewport needs deeper review during Stage 6 for sidebar ergonomics and
-  touch sizing.
+- ~~`inst/app/www/styles.css` has no media queries.~~ **Fixed in Stage 6:**
+  added `@media (max-width: 768px)` and `@media (max-width: 480px)` blocks.
+- ~~Several layout heights use `vh`, which can fail on mobile browser chrome.~~
+  **Fixed in Stage 6:** all viewport heights now use `dvh` (dynamic viewport
+  height) which adapts to mobile browser chrome.
+- ~~The viewer height is coupled to `#NGLVieweROutput_ui_1-structure`.~~
+  **Fixed in Stage 6:** the ID-coupled rule is gone. Height is set via a
+  wrapper div with `style="height: 91dvh"` and a class-based
+  `.NGLVieweR.html-widget { min-height: 250px }` for the mobile floor.
+- Some global box styling removes visual separation. *Out of scope: kept for
+  the dark viewer aesthetic; revisit if box separators help touch users.*
+- ~~CSS contains `!important`.~~ **Fixed in Stage 6:** `grep -c "!important"`
+  on `www/styles.css` returns 0.
+- Mobile viewport sidebar ergonomics: AdminLTE drawer behaviour is unchanged.
+  44px touch targets enforced via media query; sidebar `max-height: 60dvh` on
+  phones to prevent the drawer from pushing the viewer offscreen.

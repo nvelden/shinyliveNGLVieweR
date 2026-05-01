@@ -1,57 +1,142 @@
-/* Sidebar styles   */
-.sidebar { 
-  height: 90vh; 
-  overflow-y: auto; 
+/* ============================================================== */
+/* Global layout                                                  */
+/* ============================================================== */
+
+body {
+  overflow-x: hidden;
 }
-.treeview-menu{
+
+.sidebar {
+  height: 90dvh;
+  overflow-y: auto;
+}
+
+.content {
+  padding: 10px 0 0 0;
+}
+
+.content-wrapper {
+  background-color: black;
+}
+
+/* ============================================================== */
+/* Boxes — kept minimal to preserve the dark viewer aesthetic     */
+/* ============================================================== */
+
+.box {
+  margin: 0;
+  border: 0;
+  box-shadow: 0 0 0;
+}
+
+.box.box-solid.box-primary > .box-header {
+  background-color: black;
+}
+
+.box.box-solid.box-primary {
+  border-color: #fff;
+}
+
+/* ============================================================== */
+/* Sidebar items                                                  */
+/* ============================================================== */
+
+.treeview-menu {
   padding-bottom: 15px;
 }
+
 .btn-link {
-  font-weight: 700; 
+  font-weight: 700;
 }
-/* sequenceOuput   */
-#sequence .btn-primary{
+
+/* ============================================================== */
+/* Sequence output bar                                            */
+/* ============================================================== */
+
+#sequence {
+  margin: 0;
+  padding: 0;
+}
+
+#sequence .btn-primary {
   background-color: black;
   margin: 0;
   padding: 5px;
 }
-#sequence {
-  margin: 0; 
-  padding: 0;
-}
-#sequenceOutput_ui_1-PDBsequence{
-  height: 100% !important;
-  margin: 0;
-}
-.box{
-  margin: 0; 
-  border: 0; 
-  box-shadow:0 0 0;
-}
-.box.box-solid.box-primary > .box-header {
-  background-color: black;
-}
-.box.box-solid.box-primary{
-  border-color: #fff;
-}
-.content{
-  padding: 10px 0 0 0;
-}
-.content-wrapper{
-  background-color: black;
+
+/* ============================================================== */
+/* NGL viewer                                                     */
+/* ============================================================== */
+
+/* Class-based — independent of module instance ids. The actual height
+   is set inline by NGLVieweROutput(height = "91dvh") in R; this rule
+   only enforces the mobile minimum required for legible WebGL. */
+.NGLVieweR.html-widget {
+  min-height: 250px;
 }
 
-/* NGLVieweR output */
-#NGLVieweROutput_ui_1-structure{
-  height: calc(91vh) !important;
-}
+/* ============================================================== */
+/* Floating label controls box                                    */
+/* ============================================================== */
 
-#labelcontrols_ui_1-labelBox .btn-primary{
+#labelcontrols_ui_1-labelBox .btn-primary {
   background-color: black;
   margin: 0;
   padding: 5px;
 }
 
 .hideBox {
-visibility: hidden;
+  visibility: hidden;
+}
+
+/* ============================================================== */
+/* Tablet (≤768px): tighten layout, ensure 44px touch targets     */
+/* ============================================================== */
+
+@media (max-width: 768px) {
+  .sidebar {
+    height: auto;
+    max-height: 80dvh;
+  }
+
+  .content,
+  .content-wrapper {
+    padding: 8px 0 0 0;
+  }
+
+  .btn,
+  .btn-link,
+  .form-control,
+  .selectize-input,
+  .colourpicker-panel input,
+  input[type="text"],
+  input[type="number"] {
+    min-height: 44px;
+  }
+
+  .treeview-menu > li > a,
+  .sidebar-menu > li > a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+
+/* ============================================================== */
+/* Phone (≤480px): tighter padding, slightly smaller titles       */
+/* ============================================================== */
+
+@media (max-width: 480px) {
+  .sidebar {
+    max-height: 60dvh;
+  }
+
+  .box-title,
+  .box-header h3 {
+    font-size: 14px;
+  }
+
+  .content,
+  .content-wrapper {
+    padding: 4px 0 0 0;
+  }
 }

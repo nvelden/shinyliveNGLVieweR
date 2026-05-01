@@ -17,7 +17,7 @@ Source-of-truth code is **copied** from this repo, not moved.
 - [x] **Stage 3** — Strip golem references
 - [x] **Stage 4** — Modernize module API + per-module UI review (batched)
 - [x] **Stage 5** — Documentation headers + reactive contracts
-- [ ] **Stage 6** — Global CSS rewrite (responsive, dynamic viewport, cross-browser)
+- [x] **Stage 6** — Global CSS rewrite (responsive, dynamic viewport, cross-browser)
 - [ ] **Stage 7** — Shinylive export + desktop browser test
 - [ ] **Stage 8** — Mobile browser test + cross-browser smoke
 - [ ] **Stage 9** — Push to GitHub + deploy via Pages

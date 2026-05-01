@@ -15,3 +15,8 @@
 | 5 | Module headers + reactive contracts | chromium | 1280x900 | parity | 252 | 264 | 1069 | 1.05 | n/a | Single-worker run; doc-only changes, no behaviour change. |
 | 5 | Module headers + reactive contracts | chromium | 768x1024 | parity | 251 | 268 | 1037 | 1.05 | n/a | Single-worker run. |
 | 5 | Module headers + reactive contracts | chromium | 390x844 | parity | 253 | 269 | 1219 | 1.05 | n/a | Single-worker run. |
+| 6 | Responsive CSS rewrite | chromium | 1280x900 | parity | 229 | 275 | 1265 | 1.05 | n/a | dvh-based heights; no !important; 2 media queries; 44px touch targets. |
+| 6 | Responsive CSS rewrite | chromium | 768x1024 | parity | 238 | 255 | 874 | 1.05 | n/a | Tablet breakpoint engaged; touch-target check passes. |
+| 6 | Responsive CSS rewrite | chromium | 390x844 | parity | 230 | 248 | 1126 | 1.05 | n/a | Mobile; viewer canvas ≥250px; no horizontal scroll. |
+| 6 | Responsive CSS rewrite | firefox | 1280x900 | parity | 397 | 524 | 1060 | 1.05 | n/a | Cross-browser smoke. |
+| 6 | Responsive CSS rewrite | webkit | 1280x900 | parity | 0 | 396 | 1226 | 1.05 | n/a | WebKit reports domContentLoadedEventEnd before startTime in this build → domReadyMs reads 0; loadEvent is the trustworthy figure. |
