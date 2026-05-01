@@ -1,12 +1,13 @@
-#' examples UI Function
-#'
-#' @description A shiny Module.
-#'
-#' @param id,input,output,session Internal parameters for {shiny}.
-#'
-#' @noRd 
-#'
-#' @importFrom shiny NS tagList 
+# ---- mod_examples ----------------------------------------------------------
+# Sidebar panel: bundled example structures (6xcn, 2pne, 7ahl, 6fp7, 6qzy,
+# 7cid). Click triggers the .example_link JS handler in www/handlers.js,
+# which sets input$example_link_id at the top of app_server.
+#
+# Reactive contract:
+#   reads  : r$examples$example_link_id, r$fileInput
+#   writes : r$rendering, r$fileInput, r$stage$fileColor
+#   needs  : —
+
 mod_examples_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -45,9 +46,6 @@ mod_examples_ui <- function(id) {
   )
 }
     
-#' examples Server Function
-#'
-#' @noRd 
 mod_examples_server <- function(id, r) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns

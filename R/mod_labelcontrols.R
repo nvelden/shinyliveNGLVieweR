@@ -1,12 +1,15 @@
-#' labelcontrols UI Function
-#'
-#' @description A shiny Module.
-#'
-#' @param id,input,output,session Internal parameters for {shiny}.
-#'
-#' @noRd 
-#'
-#' @importFrom shiny NS tagList 
+# ---- mod_labelcontrols -----------------------------------------------------
+# Floating, draggable "Label options" box. Holds appearance controls
+# (textColor, size, offsets, background) for the active label. Pushes its
+# input values to r$labelcontrols$* so mod_label can read them directly.
+#
+# Reactive contract:
+#   reads  : input$*, r$label$labelOptions, r$label$labelLink_id, r$label$labels
+#   writes : r$labelcontrols$textColor / labelSize / fixedSize / xOffset /
+#            yOffset / zOffset / labelBackground / labelbackgroundColor /
+#            labelbackgroundOpacity
+#   needs  : globalSession (passed through; not currently used)
+
 mod_labelcontrols_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -25,9 +28,6 @@ mod_labelcontrols_ui <- function(id) {
   #)
 }
     
-#' labelcontrols Server Function
-#'
-#' @noRd 
 mod_labelcontrols_server <- function(id, globalSession, r) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns

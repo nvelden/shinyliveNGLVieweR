@@ -1,12 +1,14 @@
-#' label UI Function
-#'
-#' @description A shiny Module.
-#'
-#' @param id,input,output,session Internal parameters for {shiny}.
-#'
-#' @noRd 
-#'
-#' @importFrom shiny NS tagList 
+# ---- mod_label -------------------------------------------------------------
+# Sidebar panel: residue/atom labels. Most rendering inputs (color, size,
+# offsets, background) come from the floating mod_labelcontrols popout via
+# r$labelcontrols$*. Clicking an existing label's link rehydrates the form.
+#
+# Reactive contract:
+#   reads  : r$sidebarItemExpanded, r$fileInput$labels, r$labelcontrols$*,
+#            r$label$loaded / labelLink_id / labelRemove_id, r$sequence_df
+#   writes : r$label$labelOptions, r$label$labels / counter / loaded
+#   needs  : globalSession (NGLVieweR_proxy on the renderer's output id)
+
 mod_label_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -24,9 +26,6 @@ mod_label_ui <- function(id) {
     )
   )
 }
-#' label Server Function
-#'
-#' @noRd 
 mod_label_server <- function(id, globalSession, r) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns

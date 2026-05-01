@@ -1,6 +1,5 @@
 #' Inverted versions of in, is.null and is.na
 #' 
-#' @noRd
 #' 
 #' @examples
 #' 1 %not_in% 1:10
@@ -13,7 +12,6 @@ not_na <- Negate(is.na)
 
 #' Removes the null from a vector
 #' 
-#' @noRd
 #' 
 #' @example 
 #' drop_nulls(list(1, NULL, 2))
@@ -25,7 +23,6 @@ drop_nulls <- function(x){
 #' 
 #' @param x,y Two elements to test, one potentially `NULL`
 #' 
-#' @noRd
 #' 
 #' @examples
 #' NULL %||% 1
@@ -41,7 +38,6 @@ drop_nulls <- function(x){
 #' 
 #' @param x,y Two elements to test, one potentially `NA`
 #' 
-#' @noRd
 #' 
 #' @examples
 #' NA %||% 1
@@ -58,7 +54,6 @@ drop_nulls <- function(x){
 #' @inheritParams reactiveValues
 #' @inheritParams reactiveValuesToList
 #' 
-#' @noRd
 rv <- shiny::reactiveValues
 rvtl <- shiny::reactiveValuesToList
 

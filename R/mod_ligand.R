@@ -1,12 +1,12 @@
-#' ligand UI Function
-#'
-#' @description A shiny Module.
-#'
-#' @param id,input,output,session Internal parameters for {shiny}.
-#'
-#' @noRd 
-#'
-#' @importFrom shiny NS tagList 
+# ---- mod_ligand ------------------------------------------------------------
+# Sidebar panel: ligand representation (hide / ball+stick / spacefill) plus
+# water and ion toggles. Selection string excludes polymer/protein/nucleic.
+#
+# Reactive contract:
+#   reads  : r$sidebarItemExpanded, r$fileInput$ligand, r$ligand$loaded
+#   writes : r$ligand$ligand, r$ligand$loaded
+#   needs  : globalSession (NGLVieweR_proxy on the renderer's output id)
+
 mod_ligand_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -23,9 +23,6 @@ mod_ligand_ui <- function(id) {
   )
 }
     
-#' ligand Server Function
-#'
-#' @noRd 
 mod_ligand_server <- function(id, globalSession, r) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns

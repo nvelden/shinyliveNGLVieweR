@@ -1,9 +1,6 @@
-#' The application server-side
-#' 
-#' @param input,output,session Internal parameters for {shiny}. 
-#'     DO NOT REMOVE.
-#' @import shiny
-#' @noRd
+# Wires up the shared `r` reactiveValues and dispatches to each module.
+# All cross-module state lives on `r`; modules read/write specific keys
+# documented in their own header blocks.
 app_server <- function(input, output, session) {
   r <- reactiveValues()
   

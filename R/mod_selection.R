@@ -1,12 +1,16 @@
-#' selection UI Function
-#'
-#' @description A shiny Module.
-#'
-#' @param id,input,output,session Internal parameters for {shiny}.
-#'
-#' @noRd 
-#'
-#' @importFrom shiny NS tagList 
+# ---- mod_selection ---------------------------------------------------------
+# Sidebar panel: define named residue/atom selections with representation,
+# color scheme, and opacity. Saved selections appear as removable links.
+# Selection text uses the bs_textInput modal helper for syntax help.
+#
+# Reactive contract:
+#   reads  : r$sidebarItemExpanded, r$fileInput$selections, r$selection$loaded /
+#            counter / selectionRemove_id / selectionLink_id / selections,
+#            r$sequence_df
+#   writes : r$selection$selectionInput / selectionColorScheme /
+#            selectionColor / selections / counter / loaded
+#   needs  : globalSession (NGLVieweR_proxy on the renderer's output id)
+
 mod_selection_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -27,9 +31,6 @@ mod_selection_ui <- function(id) {
   )
 }
     
-#' selection Server Function
-#'
-#' @noRd 
 mod_selection_server <- function(id, globalSession, r) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns

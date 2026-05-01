@@ -12,3 +12,6 @@
 | 4 | All 15 modules on moduleServer | chromium | 1280x900 | parity | 288 | 304 | 1812 | 1.05 | n/a | Single-run; within budget vs Stage 3. |
 | 4 | All 15 modules on moduleServer | chromium | 768x1024 | parity | 393 | 407 | 1340 | 1.05 | n/a | Median of 3 runs (3026/1098/1340); first run had cold-worker noise. |
 | 4 | All 15 modules on moduleServer | chromium | 390x844 | parity | 374 | 391 | 1469 | 1.05 | n/a | Median of 3 runs (3217/1469/1368); first run had cold-worker noise. |
+| 5 | Module headers + reactive contracts | chromium | 1280x900 | parity | 252 | 264 | 1069 | 1.05 | n/a | Single-worker run; doc-only changes, no behaviour change. |
+| 5 | Module headers + reactive contracts | chromium | 768x1024 | parity | 251 | 268 | 1037 | 1.05 | n/a | Single-worker run. |
+| 5 | Module headers + reactive contracts | chromium | 390x844 | parity | 253 | 269 | 1219 | 1.05 | n/a | Single-worker run. |

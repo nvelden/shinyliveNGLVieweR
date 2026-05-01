@@ -1,12 +1,14 @@
-#' fileOutput UI Function
-#'
-#' @description A shiny Module.
-#'
-#' @param id,input,output,session Internal parameters for {shiny}.
-#'
-#' @noRd 
-#'
-#' @importFrom shiny NS tagList 
+# ---- mod_fileOutput --------------------------------------------------------
+# Sidebar "download" panel: serializes the current viewer state to a .ngl
+# session file (CSV-encoded blocks for STRUCTURE/SURFACE/LIGAND/STAGE/
+# SELECTIONS/LABELS/CONTACTS/PDB).
+#
+# Reactive contract:
+#   reads  : r$structure / r$surface / r$ligand / r$stage / r$selection /
+#            r$contact / r$label, r$fileInput, r$PDB
+#   writes : —
+#   needs  : —
+
 mod_fileOutput_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -19,9 +21,6 @@ mod_fileOutput_ui <- function(id) {
     )
   )
 }
-#' fileOutput Server Function
-#'
-#' @noRd 
 mod_fileOutput_server <- function(id, r) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns

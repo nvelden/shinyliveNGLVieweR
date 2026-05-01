@@ -1,12 +1,15 @@
-#' sequenceOutput UI Function
-#'
-#' @description A shiny Module.
-#'
-#' @param id,input,output,session Internal parameters for {shiny}.
-#'
-#' @noRd
-#'
-#' @importFrom shiny NS tagList
+# ---- mod_sequenceOutput ----------------------------------------------------
+# D3-rendered residue strip above the viewer. Highlights aa_clicked and the
+# active selection. Box visibility is driven by r$sidebarcontrols$showSequence;
+# chain selector appears when the structure has more than one chain.
+#
+# Reactive contract:
+#   reads  : r$sequence_df, r$selection$selectionInput / selectionColor /
+#            selectionColorScheme, r$sidebarcontrols$showSequence,
+#            r$chainname, r$aa_clicked
+#   writes : r$sequenceOutput$selectedChain
+#   needs  : globalSession (NGLVieweR_proxy on the renderer's output id)
+
 mod_sequenceOutput_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -22,9 +25,6 @@ mod_sequenceOutput_ui <- function(id) {
   )
 }
 
-#' sequenceOutput Server Function
-#'
-#' @noRd
 mod_sequenceOutput_server <- function(id, globalSession, r) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns

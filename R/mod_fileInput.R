@@ -1,12 +1,12 @@
-#' fileInput UI Function
-#'
-#' @description A shiny Module.
-#'
-#' @param id,input,output,session Internal parameters for {shiny}.
-#'
-#' @noRd 
-#'
-#' @importFrom shiny NS tagList 
+# ---- mod_fileInput ---------------------------------------------------------
+# Sidebar "load" panel: PDB-code text field and local-file upload. Each path
+# replaces r$fileInput, which the renderer in mod_NGLVieweROutput consumes.
+#
+# Reactive contract:
+#   reads  : input$codePDB, input$inputPDB, input$loadCode, input$loadStructure
+#   writes : r$rendering, r$fileInput (full struct), r$stage$fileColor
+#   needs  : —
+
 mod_fileInput_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -28,9 +28,6 @@ mod_fileInput_ui <- function(id) {
   )
 }
     
-#' fileInput Server Function
-#'
-#' @noRd 
 mod_fileInput_server <- function(id, r) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns

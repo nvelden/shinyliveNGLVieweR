@@ -1,12 +1,12 @@
-#' sidebarcontrols UI Function
-#'
-#' @description A shiny Module.
-#'
-#' @param id,input,output,session Internal parameters for {shiny}.
-#'
-#' @noRd 
-#'
-#' @importFrom shiny NS tagList
+# ---- mod_sidebarcontrols ---------------------------------------------------
+# Controls below the sidebar menu: animation mode (None/Spin/Rock), sequence
+# strip toggle, and fullscreen trigger. Talks to the viewer via proxy.
+#
+# Reactive contract:
+#   reads  : input$animate, input$showSequence, input$fullscreen
+#   writes : r$sidebarcontrols$showSequence
+#   needs  : globalSession (NGLVieweR_proxy on the renderer's output id)
+
 mod_sidebarcontrols_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -20,9 +20,6 @@ mod_sidebarcontrols_ui <- function(id) {
   )
 }
     
-#' sidebarcontrols Server Function
-#'
-#' @noRd 
 mod_sidebarcontrols_server <- function(id, globalSession, r) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns

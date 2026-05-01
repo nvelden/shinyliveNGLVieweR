@@ -1,20 +1,5 @@
-#' The application User-Interface
-#' 
-#' @param request Internal parameter for `{shiny}`. 
-#'     DO NOT REMOVE.
-#' @import shiny
-#' @import shinydashboard
-#' @import shinydashboardPlus
-#' @import colourpicker
-#' @import bsplus
-#' @import shinyWidgets
-#' @import shinyjs
-#' @import r2d3
-#' @import NGLVieweR
-#' @import shinyjqui
-#' @import uuid
-#' @import readr
-#' @noRd
+# Top-level UI assembled here. Imports are attached at app.R; this file
+# only references already-loaded packages.
 app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
@@ -62,13 +47,8 @@ app_ui <- function(request) {
   )
 }
 
-#' Add external Resources to the Application
-#' 
-#' This function is internally used to add external 
-#' resources inside the Shiny application. 
-#' 
-#' @import shiny
-#' @noRd
+# Tags injected into <head>: favicon, stylesheet, app JS, shinyjs helpers,
+# bsplus tooltips/popovers, and the two modal templates.
 add_external_resources <- function() {
   tags$head(
     tags$link(rel = "icon", href = "www/favicon.ico"),

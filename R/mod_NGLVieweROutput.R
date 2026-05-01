@@ -1,12 +1,15 @@
-#' NGLVieweROutput UI Function
-#'
-#' @description A shiny Module.
-#'
-#' @param id,input,output,session Internal parameters for {shiny}.
-#'
-#' @noRd 
-#'
-#' @importFrom shiny NS tagList 
+# ---- mod_NGLVieweROutput ---------------------------------------------------
+# Main 3D viewer pane. Wraps NGLVieweR's WebGL widget and a loading spinner.
+# Default-loads www/7cid.ngl on first session if no fileInput is set.
+#
+# Reactive contract:
+#   reads  : r$fileInput$PDB / fileExt / stage / labels / selections / ligand /
+#            contacts / structure / surface, r$rendering
+#   writes : r$fileInput (default 7cid load only),
+#            r${selection,label,contact,structure,surface,ligand,stage}$loaded,
+#            r${structure,surface,ligand,stage}${same name}, r$contact$contacts
+#   needs  : —
+
 mod_NGLVieweROutput_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -19,9 +22,6 @@ mod_NGLVieweROutput_ui <- function(id) {
   )
 }
     
-#' NGLVieweROutput Server Function
-#'
-#' @noRd 
 mod_NGLVieweROutput_server <- function(id, r) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns

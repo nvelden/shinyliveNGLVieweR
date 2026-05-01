@@ -1,12 +1,13 @@
-#' snapshot UI Function
-#'
-#' @description A shiny Module.
-#'
-#' @param id,input,output,session Internal parameters for {shiny}.
-#'
-#' @noRd 
-#'
-#' @importFrom shiny NS tagList 
+# ---- mod_snapshot ----------------------------------------------------------
+# Sidebar panel: PNG snapshot of the viewer canvas with optional antialias /
+# trim / transparency switches. Filename defaults to structure_snapshot.
+#
+# Reactive contract:
+#   reads  : input$snapshot, input$snapshotName, input$antialias,
+#            input$trim, input$transparent
+#   writes : —
+#   needs  : globalSession (NGLVieweR_proxy on the renderer's output id)
+
 mod_snapshot_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -24,9 +25,6 @@ mod_snapshot_ui <- function(id) {
   )
 }
     
-#' snapshot Server Function
-#'
-#' @noRd 
 mod_snapshot_server <- function(id, globalSession) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns

@@ -1,12 +1,14 @@
-#' structure UI Function
-#'
-#' @description A shiny Module.
-#'
-#' @param id,input,output,session Internal parameters for {shiny}.
-#'
-#' @noRd 
-#'
-#' @importFrom shiny NS tagList 
+# ---- mod_structure ---------------------------------------------------------
+# Sidebar panel: cartoon / surface / ball+stick representation controls plus
+# color scheme and selection text. Selection text uses the bs_textInput modal
+# helper for syntax help.
+#
+# Reactive contract:
+#   reads  : r$sidebarItemExpanded, r$fileInput$structure / fileExt,
+#            r$structure$loaded, r$sequence_df
+#   writes : r$structure$structure / loaded
+#   needs  : globalSession (NGLVieweR_proxy on the renderer's output id)
+
 mod_structure_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -26,9 +28,6 @@ mod_structure_ui <- function(id) {
     )
   )
 }
-#' structure Server Function
-#'
-#' @noRd 
 mod_structure_server <- function(id, globalSession, r) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns

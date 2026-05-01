@@ -1,12 +1,13 @@
-#' surface UI Function
-#'
-#' @description A shiny Module.
-#'
-#' @param id,input,output,session Internal parameters for {shiny}.
-#'
-#' @noRd 
-#'
-#' @importFrom shiny NS tagList 
+# ---- mod_surface -----------------------------------------------------------
+# Sidebar panel: surface representation (color scheme, color, selection,
+# opacity). Selection text uses the bs_textInput modal helper for syntax help.
+#
+# Reactive contract:
+#   reads  : r$sidebarItemExpanded, r$fileInput$surface, r$surface$loaded,
+#            r$sequence_df
+#   writes : r$surface$surface / loaded
+#   needs  : globalSession (NGLVieweR_proxy on the renderer's output id)
+
 mod_surface_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -23,9 +24,6 @@ mod_surface_ui <- function(id) {
   )
 }
     
-#' surface Server Function
-#'
-#' @noRd 
 mod_surface_server <- function(id, globalSession, r) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns

@@ -1,12 +1,14 @@
-#' stage UI Function
-#'
-#' @description A shiny Module.
-#'
-#' @param id,input,output,session Internal parameters for {shiny}.
-#'
-#' @noRd 
-#'
-#' @importFrom shiny NS tagList 
+# ---- mod_stage -------------------------------------------------------------
+# Sidebar panel: scene-level stage controls (background, camera type, light
+# intensity, near/far clip). The light/dark theme is driven by the chosen
+# background — switching to white injects an inline <style> override.
+#
+# Reactive contract:
+#   reads  : r$sidebarItemExpanded, r$fileInput$stage, r$stage$loaded /
+#            fileColor
+#   writes : r$stage$stage / fileColor / loaded
+#   needs  : globalSession (NGLVieweR_proxy on the renderer's output id)
+
 mod_stage_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -21,9 +23,6 @@ mod_stage_ui <- function(id) {
     )
   )
 }
-#' stage Server Function
-#'
-#' @noRd 
 mod_stage_server <- function(id, globalSession, r) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns

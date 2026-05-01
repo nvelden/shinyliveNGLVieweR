@@ -1,12 +1,14 @@
-#' contact UI Function
-#'
-#' @description A shiny Module.
-#'
-#' @param id,input,output,session Internal parameters for {shiny}.
-#'
-#' @noRd
-#'
-#' @importFrom shiny NS tagList
+# ---- mod_contact -----------------------------------------------------------
+# Sidebar panel: define interaction (hydrogen bond, hydrophobic, etc.) sets
+# between two selections and pin them as named contacts in the viewer.
+#
+# Reactive contract:
+#   reads  : r$sidebarItemExpanded, r$fileInput$contacts, r$contact$loaded /
+#            counter / contactRemove_id / contactLink_id / contacts,
+#            r$sequence_df
+#   writes : r$contact$contacts / counter / loaded
+#   needs  : globalSession (NGLVieweR_proxy on the renderer's output id)
+
 mod_contact_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -29,9 +31,6 @@ mod_contact_ui <- function(id) {
     )
   )
 }
-#' contact Server Function
-#'
-#' @noRd
 mod_contact_server <- function(id, globalSession, r) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
