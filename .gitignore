@@ -26,3 +26,8 @@ Thumbs.db
 
 # Node (in case any tooling pulls it in)
 node_modules/
+
+# Playwright generated output
+test-results/
+playwright-report/
+perf-results.jsonl
