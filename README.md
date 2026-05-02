@@ -6,6 +6,9 @@ required.
 
 > **Live demo:** https://nvelden.github.io/shinyliveNGLVieweR/
 
+> **Note:** The app can take 1-2 minutes to load on your first visit while the
+> browser downloads and starts the WebAssembly runtime.
+
 ![Desktop screenshot](screenshots/desktop.png)
 
 ## What it does
@@ -88,7 +91,7 @@ That serves the prebuilt static site directly — no R install needed.
 
 Built on:
 
-- [NGLVieweR](https://github.com/nvelden/NGLVieweR) — Shiny htmlwidget wrapper around NGL.js
+- [NGLVieweR](https://github.com/nvelden/shinyliveNGLVieweR) — Shiny htmlwidget wrapper around NGL.js
 - [NGL.js](http://nglviewer.org/ngl/api/) — the WebGL rendering library
 - [Shinylive](https://github.com/posit-dev/r-shinylive) — Posit's WebAssembly Shiny runtime
 

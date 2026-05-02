@@ -14,8 +14,8 @@ app_ui <- function(request) {
           class = "dropdown",
           id = "github_logo",
           actionLink("github",
-            label = NULL, icon = icon("fas fa-github fa-lg"),
-            onclick = "window.open('https://nvelden.github.io/NGLVieweR/index.html', '_blank')"
+            label = NULL, icon = icon("github", class = "fa-lg"),
+            onclick = "window.open('https://nvelden.github.io/shinyliveNGLVieweR/', '_blank')"
           )
         )
       ),
@@ -64,4 +64,3 @@ add_external_resources <- function() {
     bs_input_modal("contact_modal", "Contact Selection", htmlTemplate("www/contactModal.html"), "medium")
   )
 }
-
