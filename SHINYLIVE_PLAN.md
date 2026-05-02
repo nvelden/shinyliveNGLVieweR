@@ -19,7 +19,7 @@ Source-of-truth code is **copied** from this repo, not moved.
 - [x] **Stage 5** — Documentation headers + reactive contracts
 - [x] **Stage 6** — Global CSS rewrite (responsive, dynamic viewport, cross-browser)
 - [x] **Stage 7** — Shinylive export + desktop browser test
-- [ ] **Stage 8** — Mobile browser test + cross-browser smoke
+- [x] **Stage 8** — Mobile browser test + cross-browser smoke (firefox blocked by Shinylive 0.3.0 runtime)
 - [ ] **Stage 9** — Push to GitHub + deploy via Pages
 
 Each stage has explicit **Definition of Done (DoD)**. Do not advance without

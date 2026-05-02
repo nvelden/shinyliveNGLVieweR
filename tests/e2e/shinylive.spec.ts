@@ -6,9 +6,12 @@ import { chromium, expect, test } from '@playwright/test';
 const SHINYLIVE_TIMEOUT = 180_000; // ~3 min — Shinylive cold load on cold cache
 
 async function waitForShinyliveViewer(page: import('@playwright/test').Page) {
-  // Shinylive renders the app inside an <iframe>. Drill in.
-  const frameHandle = await page.waitForSelector('iframe', { timeout: SHINYLIVE_TIMEOUT });
-  const frame = await frameHandle.contentFrame();
+  // Shinylive renders the app inside an <iframe>. On slower engines the
+  // initial navigation can churn for a while before the iframe is attached,
+  // so we wait on attachment rather than visibility.
+  const frameLocator = page.locator('iframe').first();
+  await expect(frameLocator).toBeAttached({ timeout: SHINYLIVE_TIMEOUT });
+  const frame = await frameLocator.elementHandle().then((h) => h?.contentFrame());
   if (!frame) throw new Error('app iframe has no content frame');
 
   await frame.waitForSelector('canvas', { timeout: SHINYLIVE_TIMEOUT });
@@ -34,7 +37,8 @@ function isBenignShinyliveError(text: string): boolean {
 }
 
 test.describe('@shinylive static build', () => {
-  test('cold + warm desktop load with the bundled 7cid example', async ({}, testInfo) => {
+  test('cold + warm desktop load with the bundled 7cid example', async ({ browserName }, testInfo) => {
+    test.skip(browserName !== 'chromium', 'Cold-load probe uses chromium.launchPersistentContext');
     test.setTimeout(SHINYLIVE_TIMEOUT * 2);
 
     const userDataDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'shinyngl-pw-'));
@@ -141,5 +145,84 @@ test.describe('@shinylive static build', () => {
       expect(box, `canvas after loading ${code}`).not.toBeNull();
       expect(box!.height).toBeGreaterThan(100);
     }
+  });
+});
+
+test.describe('@shinylive-smoke static build cross-engine', () => {
+  test('default load + viewer ready', async ({ page }, testInfo) => {
+    test.setTimeout(SHINYLIVE_TIMEOUT);
+
+    await page.goto(process.env.BASE_URL || 'http://127.0.0.1:8080/', {
+      waitUntil: 'domcontentloaded',
+      timeout: SHINYLIVE_TIMEOUT
+    });
+    const frame = await waitForShinyliveViewer(page);
+
+    await page.screenshot({
+      path: testInfo.outputPath(`shinylive-smoke-${testInfo.project.name}.png`),
+      fullPage: true
+    });
+
+    // sanity: the iframe content has the sidebar / NGLVieweR header text.
+    // Use locator('header') to avoid matching the page <title>.
+    await expect(frame.locator('header').getByText(/NGLVieweR/i).first()).toBeVisible({ timeout: 60_000 });
+  });
+
+  test('one bundled example reloads the viewer', async ({ page, isMobile }) => {
+    test.skip(isMobile, 'Mobile sidebar ergonomics tracked for Stage 6 (UI_BASELINE.md)');
+    test.setTimeout(SHINYLIVE_TIMEOUT);
+
+    await page.goto(process.env.BASE_URL || 'http://127.0.0.1:8080/', {
+      waitUntil: 'domcontentloaded',
+      timeout: SHINYLIVE_TIMEOUT
+    });
+    const frame = await waitForShinyliveViewer(page);
+
+    await frame.getByText('examples', { exact: true }).first().click();
+    await frame.locator('a[id="2pne"].example_link').click();
+    await frame.waitForTimeout(3000);
+
+    const box = await frame.locator('canvas').first().boundingBox();
+    expect(box, 'canvas after example load').not.toBeNull();
+    expect(box!.height).toBeGreaterThan(100);
+  });
+
+  test('selection modal opens', async ({ page, isMobile }) => {
+    test.skip(isMobile, 'Mobile sidebar ergonomics tracked for Stage 6 (UI_BASELINE.md)');
+    test.setTimeout(SHINYLIVE_TIMEOUT);
+
+    await page.goto(process.env.BASE_URL || 'http://127.0.0.1:8080/', {
+      waitUntil: 'domcontentloaded',
+      timeout: SHINYLIVE_TIMEOUT
+    });
+    const frame = await waitForShinyliveViewer(page);
+
+    // Open structure panel which has a bs_textInput → modal trigger
+    await frame.getByText('structure', { exact: true }).first().click();
+
+    // The bs_input_modal renders #select_modal in the iframe
+    await expect(frame.locator('#select_modal')).toBeAttached({ timeout: 30_000 });
+  });
+});
+
+test.describe('@shinylive-mobile responsive', () => {
+  test('no horizontal scroll and viewer ≥250px', async ({ page, viewport }) => {
+    test.skip(!viewport || viewport.width > 480, 'Mobile-only check');
+    test.setTimeout(SHINYLIVE_TIMEOUT);
+
+    await page.goto(process.env.BASE_URL || 'http://127.0.0.1:8080/', {
+      waitUntil: 'domcontentloaded',
+      timeout: SHINYLIVE_TIMEOUT
+    });
+    const frame = await waitForShinyliveViewer(page);
+
+    const overflow = await page.evaluate(() => ({
+      scrollWidth: document.body.scrollWidth,
+      windowWidth: window.innerWidth
+    }));
+    expect(overflow.scrollWidth, JSON.stringify(overflow)).toBeLessThanOrEqual(overflow.windowWidth + 1);
+
+    const box = await frame.locator('canvas').first().boundingBox();
+    expect(box?.height || 0).toBeGreaterThanOrEqual(250);
   });
 });

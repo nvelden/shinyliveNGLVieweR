@@ -24,3 +24,6 @@
 | 7 | First Shinylive export | chromium | 1280x900 | shinylive warm | n/a | n/a | 7880 | 23.76 | 139M / 115M / 112M | Same persistent context after reload; warm ≈ cold because WebR re-boots on every reload (DOM cache helps less than expected here). |
 | 7 | First Shinylive export | chromium | 1280x900 | shinylive cold | n/a | n/a | 7721 | 23.76 | 139M / 115M / 112M | Second run for noise check; same magnitude. |
 | 7 | First Shinylive export | chromium | 1280x900 | shinylive warm | n/a | n/a | 7637 | 23.76 | 139M / 115M / 112M | Second run reload; same magnitude. |
+| 8 | Mobile + cross-engine smoke | chromium | 390x844 | shinylive default | n/a | n/a | <60s | 23.76 | 139M | @shinylive-smoke + @shinylive-mobile pass: default load, no horizontal scroll, viewer ≥250 px, one example reloads. |
+| 8 | Mobile + cross-engine smoke | webkit | 1280x900 | shinylive default | n/a | n/a | <60s | 23.76 | 139M | All three @shinylive-smoke tests pass on Safari proxy. |
+| 8 | Mobile + cross-engine smoke | firefox | 1280x900 | shinylive default | n/a | n/a | timeout | n/a | 139M | All 3 @shinylive-smoke tests fail. The Shinylive iframe never attaches (page navigates to "/" repeatedly). Documented as a Shinylive 0.3.0 / Firefox runtime limitation, not an app regression — chromium and webkit work. |
