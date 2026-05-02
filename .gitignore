@@ -5,12 +5,6 @@
 .Ruserdata
 *.Rproj.user
 
-# RStudio project (uncomment if you don't want to commit)
-# *.Rproj
-
-# Shinylive local build output (use docs/ for the deployed build)
-site/
-
 # OS noise
 .DS_Store
 Thumbs.db
@@ -21,14 +15,5 @@ Thumbs.db
 *.swp
 *~
 
-# Claude/agent state
-.claude/
-
-# Node (in case any tooling pulls it in)
-node_modules/
-
-# Playwright generated output
-test-results/
-playwright-report/
-perf-results.jsonl
-shinylive-perf.jsonl
+# Local Shinylive build output (the deployed copy lives in docs/)
+site/

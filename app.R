@@ -14,6 +14,5 @@ library(dplyr)
 library(stringr)
 library(tidyr)
 library(uuid)
-library(DT)
 
 shinyApp(ui = app_ui, server = app_server)
