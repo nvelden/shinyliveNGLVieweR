@@ -20,3 +20,7 @@
 | 6 | Responsive CSS rewrite | chromium | 390x844 | parity | 230 | 248 | 1126 | 1.05 | n/a | Mobile; viewer canvas ≥250px; no horizontal scroll. |
 | 6 | Responsive CSS rewrite | firefox | 1280x900 | parity | 397 | 524 | 1060 | 1.05 | n/a | Cross-browser smoke. |
 | 6 | Responsive CSS rewrite | webkit | 1280x900 | parity | 0 | 396 | 1226 | 1.05 | n/a | WebKit reports domContentLoadedEventEnd before startTime in this build → domReadyMs reads 0; loadEvent is the trustworthy figure. |
+| 7 | First Shinylive export | chromium | 1280x900 | shinylive cold | n/a | n/a | 7927 | 23.76 | 139M / 115M / 112M | First run in fresh persistent context; build = site / site/shinylive / site/shinylive/webr. |
+| 7 | First Shinylive export | chromium | 1280x900 | shinylive warm | n/a | n/a | 7880 | 23.76 | 139M / 115M / 112M | Same persistent context after reload; warm ≈ cold because WebR re-boots on every reload (DOM cache helps less than expected here). |
+| 7 | First Shinylive export | chromium | 1280x900 | shinylive cold | n/a | n/a | 7721 | 23.76 | 139M / 115M / 112M | Second run for noise check; same magnitude. |
+| 7 | First Shinylive export | chromium | 1280x900 | shinylive warm | n/a | n/a | 7637 | 23.76 | 139M / 115M / 112M | Second run reload; same magnitude. |

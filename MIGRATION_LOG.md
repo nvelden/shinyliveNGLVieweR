@@ -15,8 +15,8 @@ Running record of the [shinyNGLVieweR → shinylive port](https://github.com/nve
 | — | Fix outputProgress console errors | done | `bd4336c` |
 | 5 | Documentation headers + reactive contracts | done | `f82b8f1` |
 | 6 | Global responsive CSS rewrite | done | `88ef8eb` |
-| 7 | Shinylive export + desktop browser test | next | — |
-| 8 | Mobile + cross-browser smoke (Shinylive build) | pending | — |
+| 7 | Shinylive export + desktop browser test | done | (this commit) |
+| 8 | Mobile + cross-browser smoke (Shinylive build) | next | — |
 | 9 | Push + GitHub Pages deploy | pending | — |
 
 All work to date lives on the `migration/playwright-baseline` branch.
@@ -113,6 +113,24 @@ Tests:
 
 ---
 
-## Up next — Stage 7
+## Stage 7 — First Shinylive export
 
-Run `shinylive::export(appdir = ".", destdir = "site", quiet = FALSE)` and serve the static build with `httpuv::runStaticServer`. First load is expected at ~50–80 MB / ~30 s (uncached), so the Playwright `@shinylive` runs use a fresh persistent context for the cold measurement and reload in the same context for the warm number. Required at this stage: every bundled example renders, file upload works, and either PDB-code loading succeeds without CORS errors (network-enabled) or the offline-first decision is documented.
+`shinylive::export(appdir = ".", destdir = "site", quiet = FALSE)` produced a 139 MB build (`site/` 139 MB, `site/shinylive` 115 MB, `site/shinylive/webr` 112 MB). The R log surfaced 8 package version-mismatch warnings (`shinyWidgets`, `pillar`, `bit`, `bit64`, `tzdb`, `knitr`, `tinytex`, `xfun` — installed locally vs. WebAssembly catalog); these are advisory, not blockers, but worth tracking for future stages.
+
+`httpuv::runStaticServer` serves `.wasm` with the wrong Content-Type, which Chrome refuses to streaming-compile. Switched local serving to `python3 -m http.server` (Python 3.7+ registers `application/wasm` automatically) — the GitHub Pages target sets the right MIME by default, so this only affects the local dev loop.
+
+`tests/e2e/shinylive.spec.ts` (`@shinylive`) covers the Stage 7 DoD on `chromium-desktop`:
+- Cold + warm load in a fresh `chromium.launchPersistentContext()`. Cold ≈ warm at ~7.8 s because WebR re-boots on each reload — service-worker/asset cache helps less than R-state caching would. Two runs landed within noise.
+- Local upload of `www/7cid.pdb` via `setInputFiles` renders a fresh canvas.
+- Walks every bundled example (`6xcn`, `2pne`, `7ahl`, `6fp7`, `6qzy`) and asserts the canvas resizes after each.
+- The shared `isBenignShinyliveError` filter accepts `preload error:` status lines and the long-standing `div is not defined` warning (already on the baseline list); everything else fails the test.
+
+PDB-code policy: **offline-first.** Bundled `.ngl` examples and uploaded PDBs are the supported paths; the `1AKE`-style PDB-code loader is best-effort and not asserted in CI. (Switching to network-enabled later means adding a CORS check in this same spec.)
+
+`PERF_LOG.md` row 7 records cold/warm/transfer/build for the two runs.
+
+---
+
+## Up next — Stage 8
+
+Mobile + cross-browser smoke against the same Shinylive build: `chromium-mobile`, `firefox-desktop`, `webkit-desktop`. Confirm no horizontal scroll at 390×844, the viewer canvas stays ≥250 px tall, and one example + one modal work on each engine.
