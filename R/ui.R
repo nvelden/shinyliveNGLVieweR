@@ -54,7 +54,6 @@ add_external_resources <- function() {
     tags$link(rel = "icon", href = "www/favicon.ico"),
     tags$link(rel = "stylesheet", href = "www/styles.css"),
     tags$script(src = "www/handlers.js"),
-    tags$script(src = "www/sequenceOutput.js"),
     useShinyjs(),
     extendShinyjs(text = jsboxCollapse, functions = c("collapse")), #Collapse box when clicking on title
     # Input modals
