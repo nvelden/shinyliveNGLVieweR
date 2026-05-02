@@ -17,7 +17,7 @@ Running record of the [shinyNGLVieweR → shinylive port](https://github.com/nve
 | 6 | Global responsive CSS rewrite | done | `88ef8eb` |
 | 7 | Shinylive export + desktop browser test | done | `5e04391` |
 | 8 | Mobile + cross-browser smoke (Shinylive build) | done (firefox limitation) | (this commit) |
-| 9 | Push + GitHub Pages deploy | next | — |
+| 9 | Push + GitHub Pages deploy | docs/ built + pushed; Pages enable is manual | (this commit) |
 
 All work to date lives on the `migration/playwright-baseline` branch.
 
@@ -148,6 +148,26 @@ Totals: **11 passed, 3 failed (firefox), 6 skipped** in 11.5 minutes. `PERF_LOG.
 
 ---
 
-## Up next — Stage 9
+## Stage 9 — Pages-ready build
 
-`shinylive::export(appdir = ".", destdir = "docs")` then commit `docs/` and push. GitHub Pages enable (Settings → Pages → Source: `main` / `/docs`) is a manual step in the GitHub UI; the migration branch will land that build so it can be merged to `main` when ready.
+`shinylive::export` recursively bundles every file under `appdir` into `app.json`. Running it from the repo root vacuumed up `node_modules/`, `test-results/`, `playwright-report/`, `baseline-artifacts/`, `stage6-artifacts/`, etc. — `app.json` ballooned to 209 MB and the total build hit 323 MB. Workaround: stage a clean directory containing only `app.R`, `R/`, and `www/`, then export from there:
+
+```bash
+STAGE=$(mktemp -d -t shinylive-stage-XXXXXX)
+cp app.R "$STAGE/"
+cp -R R www "$STAGE/"
+Rscript -e "shinylive::export(appdir = '$STAGE', destdir = 'docs', quiet = FALSE)"
+```
+
+Result: `docs/` is 119 MB / 261 files; `docs/app.json` is 5.3 MB. The largest individual file is `docs/shinylive/webr/library.data.gz` at 13 MB — well under GitHub's 100 MB push limit. Smoke test against the new `docs/` build (chromium-desktop): default load + every bundled example pass.
+
+### Manual deploy steps
+
+The build is committed on `migration/playwright-baseline`. To go live:
+
+1. Merge the migration branch into `main` so `docs/` lands there.
+2. GitHub repo → **Settings → Pages → Source: Deploy from a branch → Branch: `main` / Folder: `/docs`** → Save.
+3. Wait ~1 minute, then visit `https://nvelden.github.io/shinyliveNGLVieweR/`.
+4. Run the production smoke: `BASE_URL=https://nvelden.github.io/shinyliveNGLVieweR npx playwright test shinylive.spec.ts -g "@shinylive-smoke" --project=chromium-desktop`.
+
+Pages does not let me toggle that switch from the CLI in this session, so steps 1–3 are user-driven.
