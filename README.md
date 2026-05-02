@@ -6,17 +6,23 @@ This is a Shinylive port of [shinyNGLVieweR](https://github.com/nvelden/shinyNGL
 
 ## Try it
 
-> Live demo will be available at `https://nvelden.github.io/shinyliveNGLVieweR/` once Stage 7 of the migration completes.
+> Live demo at `https://nvelden.github.io/shinyliveNGLVieweR/` will go live once
+> GitHub Pages is enabled on this repo. Pages is currently blocked because the
+> repo is private — see the [deploy status note in
+> MIGRATION_LOG.md](MIGRATION_LOG.md#deploy-status) for options. Until then you
+> can run the build locally (see below).
 
 ## Status
 
-Migration in progress. Stages 0 → 6 are complete on the
-[`migration/playwright-baseline`](https://github.com/nvelden/shinyliveNGLVieweR/tree/migration/playwright-baseline)
-branch — golem stripped, all 15 modules on `moduleServer`, headers + reactive
-contracts in place, responsive CSS rewrite live. Stage 7 (first full Shinylive
-export) is up next. See [MIGRATION_LOG.md](MIGRATION_LOG.md) for a stage-by-stage
-record and [PERF_LOG.md](PERF_LOG.md) for timing data; the source spec lives
-in the original repo as [SHINYLIVE_PLAN.md](https://github.com/nvelden/shinyNGLVieweR/blob/master/SHINYLIVE_PLAN.md).
+Migration is feature-complete on `main`. Stages 0 → 9 are committed:
+golem stripped, all 15 modules on `moduleServer`, doc headers + reactive
+contracts, responsive CSS rewrite, Shinylive build in `docs/`. Cross-engine
+smoke passes on Chromium and WebKit; Firefox + Shinylive 0.3.0 has a known
+runtime issue documented in [MIGRATION_LOG.md](MIGRATION_LOG.md). The
+remaining work is enabling Pages and validating the production URL — see
+[MIGRATION_LOG.md](MIGRATION_LOG.md) and [PERF_LOG.md](PERF_LOG.md). The
+source spec lives in the original repo as
+[SHINYLIVE_PLAN.md](https://github.com/nvelden/shinyNGLVieweR/blob/master/SHINYLIVE_PLAN.md).
 
 ## Local development
 

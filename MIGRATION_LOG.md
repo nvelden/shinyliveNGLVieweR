@@ -161,13 +161,23 @@ Rscript -e "shinylive::export(appdir = '$STAGE', destdir = 'docs', quiet = FALSE
 
 Result: `docs/` is 119 MB / 261 files; `docs/app.json` is 5.3 MB. The largest individual file is `docs/shinylive/webr/library.data.gz` at 13 MB — well under GitHub's 100 MB push limit. Smoke test against the new `docs/` build (chromium-desktop): default load + every bundled example pass.
 
-### Manual deploy steps
+### Deploy status
 
-The build is committed on `migration/playwright-baseline`. To go live:
+- ✅ `migration/playwright-baseline` fast-forward merged into `main` (`9928056`). `docs/` is now on `main`.
+- 🚫 **Pages enable is blocked: this repo is private.** `gh api repos/.../pages -X POST` returned `HTTP 422 — Your current plan does not support GitHub Pages for this repository`. GitHub Pages on a `*.github.io` URL is a free-plan feature for **public** repos only; private repos require GitHub Pro / Team / Enterprise.
+- I deliberately did **not** flip the repo public from the CLI. That is a one-way visibility change that should be made deliberately by the owner, not by an agent driving a migration.
 
-1. Merge the migration branch into `main` so `docs/` lands there.
-2. GitHub repo → **Settings → Pages → Source: Deploy from a branch → Branch: `main` / Folder: `/docs`** → Save.
-3. Wait ~1 minute, then visit `https://nvelden.github.io/shinyliveNGLVieweR/`.
-4. Run the production smoke: `BASE_URL=https://nvelden.github.io/shinyliveNGLVieweR npx playwright test shinylive.spec.ts -g "@shinylive-smoke" --project=chromium-desktop`.
+### How to finish (one of):
 
-Pages does not let me toggle that switch from the CLI in this session, so steps 1–3 are user-driven.
+1. **Make the repo public.** GitHub repo → Settings → General → Danger Zone → "Change visibility". Then `gh api repos/nvelden/shinyliveNGLVieweR/pages -X POST -f 'source[branch]=main' -f 'source[path]=/docs'` (or do it through Settings → Pages).
+2. **Stay private and upgrade** to GitHub Pro (or Team/Enterprise) so Pages becomes available on private repos.
+3. **Skip github.io and self-host** the `docs/` directory anywhere else (Cloudflare Pages, Netlify, S3, Vercel — they all accept a static folder and don't care about the upstream repo's visibility).
+
+After Pages is live, run:
+
+```bash
+BASE_URL=https://nvelden.github.io/shinyliveNGLVieweR \
+  npx playwright test shinylive.spec.ts -g "@shinylive-smoke" --project=chromium-desktop
+```
+
+— and append the production row to `PERF_LOG.md`.
