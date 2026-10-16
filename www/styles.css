@@ -2,8 +2,16 @@
 /* Global layout                                                  */
 /* ============================================================== */
 
-body {
-  overflow-x: hidden;
+/* Keep NGL canvas focus from moving the dashboard viewport. The sidebar keeps
+   its own vertical scrollbar. */
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* !important: shinydashboardPlus sets overflow-y: auto inline on .content-wrapper */
+.wrapper, .content-wrapper {
+  overflow: hidden !important;
 }
 
 .sidebar {
@@ -11,8 +19,23 @@ body {
   overflow-y: auto;
 }
 
+/* Fill the space below the header: sequence box on top, viewer takes the rest */
 .content {
   padding: 10px 0 0 0;
+  height: calc(100vh - 50px);
+  height: calc(100dvh - 50px);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* AdminLTE stacks the logo above the navbar below 768px: header is 100px */
+@media (max-width: 767px) {
+  .content {
+    height: calc(100vh - 100px);
+    height: calc(100dvh - 100px);
+  }
 }
 
 .content-wrapper {
@@ -68,9 +91,18 @@ body {
 /* NGL viewer                                                     */
 /* ============================================================== */
 
-/* Class-based — independent of module instance ids. The actual height
-   is set inline by NGLVieweROutput(height = "91dvh") in R; this rule
-   only enforces the mobile minimum required for legible WebGL. */
+#sequenceOutput_ui_1-boxPlaceholder {
+  flex: 0 0 auto;
+  display: flow-root;
+}
+
+.ngl-viewer-wrap {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Class-based — independent of module instance ids. Enforces the mobile
+   minimum required for legible WebGL. */
 .NGLVieweR.html-widget {
   min-height: 250px;
 }
@@ -99,9 +131,9 @@ body {
     max-height: 80dvh;
   }
 
-  .content,
-  .content-wrapper {
-    padding: 8px 0 0 0;
+  /* Padding on .content only, so it stays inside the computed height */
+  .content {
+    padding: 16px 0 0 0;
   }
 
   .btn,
@@ -135,8 +167,7 @@ body {
     font-size: 14px;
   }
 
-  .content,
-  .content-wrapper {
-    padding: 4px 0 0 0;
+  .content {
+    padding: 8px 0 0 0;
   }
 }

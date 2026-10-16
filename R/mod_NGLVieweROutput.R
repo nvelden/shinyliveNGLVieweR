@@ -15,12 +15,11 @@ mod_NGLVieweROutput_ui <- function(id) {
   tagList(
     div(
       class = "ngl-viewer-wrap",
-      style = "height: 91dvh;",
       NGLVieweROutput(ns("structure"), height = "100%")
     ),
     div(
       id = ns("render-loader"),
-      style = "position: absolute; z-index: 999; top: 91dvh; padding: 25px; color: grey;",
+      style = "position: absolute; z-index: 999; bottom: 0; padding: 25px; color: grey;",
       HTML('<div class="fa-1x"><i class="fas fa-spinner fa-spin"></i> loading...</div>')
     )
   )
